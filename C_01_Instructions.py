@@ -36,15 +36,18 @@ then you will have 11 points added to your score.
 
     ''')
 
+# loop for testing purposes
 
 # Main routine
-print()
+
+
 print("🎲🎲 Roll it 13 🎲🎲")
 print()
 
-want_instructions = yes_no("Do you want to read the instructions?")
+want_instructions = yes_no("Do you want to read the instructions? ")
 
+# check is users enter yes (y) or no (n)
 if want_instructions == "yes":
     instructions()
 
-    print("program")
+    print("program continues")
