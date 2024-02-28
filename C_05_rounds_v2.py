@@ -31,6 +31,7 @@ def two_rolls(who):
 
 
 user_pass = "no"
+computer_pass = "no"
 
 # Main Routine starts here
 print("Press <enter> to begin this round: ")
@@ -90,21 +91,26 @@ while computer_points < 13 and user_points < 13:
         # if user passes, we don't ask again
         user_pass = "yes"
 
-    # Roll die for computer and update computer points
-    computer_move = roll_die()
-    computer_points += computer_move
-
-    # check computer has not gone over...
-    if computer_points > 13:
-        print(f"💥💥💥The computer rolled a {computer_move}, taking their points"
-              f" to {computer_points}. this is over 13 points so the computer loses!💥💥💥")
-        computer_points = 0
-        break
+    # if computer has 10 points or more (and is winning), it should pass!
+    if computer_pass >= 10 and computer_points >= user_points:
+        computer_pass = "yes"
 
     else:
-        print()
-        print(f"The computer rolled a {computer_move}. The computer"
-              f" now has {computer_points}")
+        # Roll die for computer and update computer points
+        computer_move = roll_die()
+        computer_points += computer_move
+
+        # check computer has not gone over...
+        if computer_points > 13:
+            print(f"💥💥💥The computer rolled a {computer_move}, taking their points"
+                  f" to {computer_points}. this is over 13 points so the computer loses!💥💥💥")
+            computer_points = 0
+            break
+
+        else:
+            print()
+            print(f"The computer rolled a {computer_move}. The computer"
+                  f" now has {computer_points}")
 
     print()
     # Tell user if they are winning, losing or if tie
@@ -118,6 +124,9 @@ while computer_points < 13 and user_points < 13:
     print(f"***Round Update****; {result} ")
     print(f"User Score: {user_points} \t | \t Computer Score: {computer_points}")
 
+    if computer_pass == "yes" and user_pass == "yes":
+        break
+
 # Outside loop - doubler user points if they won and are eligible
 
 # Show rounds result
@@ -128,7 +137,7 @@ if user_points < computer_points:
 
 
 # currently does not include double points!
-else:
+elif user_points > computer_points:
     # Double user points if they are eligible
     if double_points == "yes":
         user_points *= 2
