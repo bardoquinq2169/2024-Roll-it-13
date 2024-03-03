@@ -15,3 +15,9 @@ for item in range(0, 6):
 # calculate the lowest, highest and average
 # scores and display then.
 
+# sort the lists
+user_scores.sort()
+comp_scores.sort()
+
+print("user scores: ", user_scores)
+print("computer scores: ", comp_scores)
