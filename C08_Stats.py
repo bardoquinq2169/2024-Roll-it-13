@@ -19,5 +19,12 @@ for item in range(0, 6):
 user_scores.sort()
 comp_scores.sort()
 
-print("user scores: ", user_scores)
-print("computer scores: ", comp_scores)
+# find lowest, highest and average scores...
+user_low = user_scores[0]
+user_high = user_scores[-1]
+user_average = sum(user_scores) / len(user_scores)
+
+print("Low: ", user_low)
+print("High: ", user_high)
+print("Average", user_average)
+
