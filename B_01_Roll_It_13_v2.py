@@ -1,6 +1,47 @@
 import random
 
 
+# checks users enter yes (y) or no (n)
+def yes_no(question):
+    while True:
+        response = input(question).lower()
+
+        # check user response, question
+        # repeat if users don't enter yes/no
+        if response == "yes" or response == "y":
+            return "yes"
+        elif response == "no" or response == "n":
+            return "no"
+        else:
+            print("Please enter yes/no")
+
+
+# Displays instructions to users
+
+def instructions():
+    print('''
+
+
+**** Instructions ****
+
+To begin, decide on a score goal (eg: The first one to get a score of 50 wins).
+
+For each round of the game, you win points by rolling dice.
+The winner of the round is the one who gets 13 (or slightly less)
+
+If you win the round, then your score will increase by the 
+number of points that you earned. If your first roll of two 
+dice is a double (eg: both of the dice show a three), then your score
+will be DOUBLE the number of points.
+
+If you lose the round, then you don"t get any points.
+
+If you and the computer tie (eg: you both geta score of 11,
+then you will have 11 points added to your score.
+
+    ''')
+
+
 # generates an integer between 0 and 6
 # to simulate a roll of die
 def roll_die():
@@ -52,6 +93,20 @@ def int_check(question):
             print(error)
 
 
+# finds the lowest, highest and average
+# score from a list
+def get_stats(stats_list):
+    # sort the lists
+    stats_list.sort()
+
+    # find lowest, highest and average scores...
+    lowest_score = stats_list[0]
+    highest_score = stats_list[-1]
+    average_score = sum(stats_list) / len(stats_list)
+
+    return [lowest_score, highest_score, average_score]
+
+
 # main routine goes here
 
 # initialise user score and computer score
@@ -60,9 +115,27 @@ comp_score = 0
 
 num_rounds = 0
 
+
+# create lines to hold user and computer scores
+user_scores = []
+comp_scores = []
+game_history = []
+
+print()
+print("🎲🎲 Roll it 13 🎲🎲")
+print()
+
+# display instructions if user wants to see them.
+want_instructions = yes_no("Do you want to read the instructions? ")
+
+if want_instructions == "yes":
+    instructions()
+
 target_score = int_check("Enter a target score: ")
 print(target_score)
 
+
+# Loop game until we have a winner
 while user_score < target_score and comp_score < target_score:
     # Add one to the number of rounds (for our heading)
     num_rounds += 1
@@ -104,7 +177,7 @@ while user_score < target_score and comp_score < target_score:
             user_pass = "yes"
 
         if user_pass == "no":
-            roll_again = input("Do you want to roll the dice (type 'no' to pass)")
+            roll_again = yes_no("Do you want to roll the dice (type 'no' to pass)")
         else:
             roll_again = "no"
 
@@ -204,6 +277,10 @@ while user_score < target_score and comp_score < target_score:
 
         add_points = user_points
 
+    # Record round result and add it to the game history
+    round_result = f"Round {num_rounds} - User: {user_points} \t Computer:{computer_points}"
+    game_history.append(round_result)
+
     # end of a single round
 
     # If the computer wins, add its points to its score
@@ -219,6 +296,29 @@ while user_score < target_score and comp_score < target_score:
         comp_score += add_points
         user_score += add_points
 
+        user_scores.append(user_points)
+        comp_scores.append(computer_points)
+
     print()
     print(f"🎲🎲🎲 User: {user_score} points | Computer: {comp_score}")
     print()
+
+print()
+print(f"Your final score is {user_score}")
+
+show_history = yes_no("")
+
+# calculate the lowest, highest and average
+# scores and display then.
+
+user_stats = get_stats(user_scores)
+comp_stats = get_stats(comp_scores)
+
+print(f"📊📊📊 Game Statistics 📊📊📊")
+print(f"User     - Lowest Score: {user_stats[0]}\t "
+      f"Highest Score : {comp_stats[1]}\t"
+      f"Average Scores: {comp_stats[2]}")
+
+print(f"Computer - Lowest Score: {comp_stats[0]}\t "
+      f"Highest Score: {comp_stats[1]}\t"
+      f"Average Scores: {comp_stats[2]}")
